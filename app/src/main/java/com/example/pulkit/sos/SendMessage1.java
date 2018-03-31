@@ -46,9 +46,13 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
+
+import com.skyfishjy.library.RippleBackground;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -63,7 +67,8 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class SendMessage1 extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,SensorEventListener,GestureDetector.OnGestureListener,GestureDetector.OnDoubleTapListener{
     SensorManager sensorManager;
-    ImageButton button1, button_map, button_stop;
+    ImageButton button_map,button_stop;
+    ImageView button1;
     Random random;
     TextView stop_recording_text;
     Button pattern;
@@ -93,10 +98,30 @@ public class SendMessage1 extends AppCompatActivity
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
 //            Log.d("hehe","onCreate is called");
+
+
             timer=(TextView) findViewById(R.id.timer);
-            button1 = (ImageButton) findViewById(R.id.sos_button);
+            button1 = (ImageView) findViewById(R.id.sos_button);
             button_stop = (ImageButton) findViewById(R.id.audio_stop_button);
             button_stop.setVisibility(View.INVISIBLE);
+
+           final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
+           //ImageView imageView=(ImageView)findViewById(R.id.sos_button);
+            button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    sendMessage(view);
+                    rippleBackground.startRippleAnimation();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
             pattern= (Button) findViewById(R.id.pattern);
             button_map = (ImageButton) findViewById(R.id.temp_button);
             stop_recording_text = (TextView) findViewById(R.id.stop_recording_text);
