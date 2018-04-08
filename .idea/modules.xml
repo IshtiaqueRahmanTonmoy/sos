@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\TONMOYPC\Downloads\Stay-Safe-SOS-master (2)\Stay-Safe-SOS-master\sos\app\app.iml" filepath="C:\Users\TONMOYPC\Downloads\Stay-Safe-SOS-master (2)\Stay-Safe-SOS-master\sos\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/pulsator4droid/pulsator4droid.iml" filepath="$PROJECT_DIR$/pulsator4droid/pulsator4droid.iml" />
       <module fileurl="file://$PROJECT_DIR$/sos.iml" filepath="$PROJECT_DIR$/sos.iml" />
       <module fileurl="file://C:\Users\TONMOYPC\Downloads\Stay-Safe-SOS-master (2)\Stay-Safe-SOS-master\sos\sos (Android).iml" filepath="C:\Users\TONMOYPC\Downloads\Stay-Safe-SOS-master (2)\Stay-Safe-SOS-master\sos\sos (Android).iml" />

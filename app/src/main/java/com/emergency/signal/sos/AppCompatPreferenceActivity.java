@@ -1,4 +1,4 @@
-package com.example.pulkit.sos;
+package com.emergency.signal.sos;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

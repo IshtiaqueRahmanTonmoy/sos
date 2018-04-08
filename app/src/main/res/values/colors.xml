@@ -22,6 +22,14 @@
         <color name="dot_light_screen3">#93c6fd</color>
         <color name="dot_light_screen4">#e4b5fc</color>
 
+    <color name="colorTextIcons">#ffffff</color>
+
+    <color name="colorPrimaryLight">#FFCCBC</color>
+    <color name="colorPrimaryText">#212121</color>
+
+    <color name="colorSecondaryText">#727272</color>
+
+    <color name="colorDivider">#B6B6B6</color>
         <array name="array_dot_active">
             <item>@color/dot_light_screen1</item>
             <item>@color/dot_light_screen2</item>

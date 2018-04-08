@@ -1,4 +1,4 @@
-package com.example.pulkit.sos;
+package com.emergency.signal.sos;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

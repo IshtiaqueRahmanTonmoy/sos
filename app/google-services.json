@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "596523125209",
+    "firebase_url": "https://ihelp-2b0a6.firebaseio.com",
+    "project_id": "ihelp-2b0a6",
+    "storage_bucket": "ihelp-2b0a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596523125209:android:a88efc6f26e38ee2",
+        "android_client_info": {
+          "package_name": "com.emergency.signal.sos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596523125209-86rqsngb2j2kuj954fdumob184a01c4h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.emergency.signal.sos",
+            "certificate_hash": "ce4fc1edef94f549f0b6bae43592ee160f24466f"
+          }
+        },
+        {
+          "client_id": "596523125209-vt2mqtalo989gvs1iu94d448e9oiun7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCD4wuDVPXfo1V7kgPWt8G6aOlha1JvXS8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596523125209-vt2mqtalo989gvs1iu94d448e9oiun7l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

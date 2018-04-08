@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "com.example.pulkit.sos"
+        applicationId "com.emergency.signal.sos"
         minSdkVersion 18
         targetSdkVersion 24
         versionCode 1
@@ -24,6 +24,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions{
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+
+    }
 }
 
 dependencies {
@@ -31,14 +38,19 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.google.android.gms:play-services:6.5.87'
-    compile 'com.android.support:appcompat-v7:25.3.0'
+    //compile 'com.google.android.gms:play-services:6.5.87'
+    //noinspection GradleCompatible
+    compile 'com.android.support:appcompat-v7:26.1.0'
 //    compile 'com.google.android.gms:play-services:10.0.1'
-    compile 'com.android.support:design:25.3.0'
+    compile 'com.android.support:design:26.1.0'
     compile 'com.android.support.test.espresso:espresso-core:2.2.2'
-    compile 'com.android.support:support-v4:25.3.0'
-    compile 'com.android.support:support-vector-drawable:25.3.0'
+    compile 'com.android.support:support-v4:26.1.0'
+    compile 'com.android.support:support-vector-drawable:26.1.0'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
-
-//    testCompile 'junit:junit:4.12'
+    //compile 'com.google.android.gms:play-services:6.5.8'
+    compile 'com.google.android.gms:play-services:12.0.1'
+    compile 'com.google.firebase:firebase-core:12.0.1'
+    compile 'com.firebase:firebase-client-android:2.5.1+'
+    //    testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'

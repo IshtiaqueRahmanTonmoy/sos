@@ -1,4 +1,4 @@
-package com.example.pulkit.sos;
+package com.emergency.signal.sos;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

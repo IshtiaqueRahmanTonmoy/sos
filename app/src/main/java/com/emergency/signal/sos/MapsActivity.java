@@ -1,4 +1,4 @@
-package com.example.pulkit.sos;
+package com.emergency.signal.sos;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -28,9 +27,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.HashMap;
-import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,

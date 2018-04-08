@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.pulkit.sos">
+    package="com.emergency.signal.sos">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -66,7 +66,7 @@
         </receiver>
 
         <activity
-            android:name=".MainActivity1"
+            android:name=".SigninActivity"
             android:label="@string/title_activity_main1"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -78,7 +78,9 @@
         <activity android:name=".AboutUs" />
         <activity android:name=".HelpInfo" />
         <activity android:name=".Custom_Drawing" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
+        <activity android:name=".WelcomeActivity" />
+        <activity android:name=".MainActivity1"></activity>
     </application>
 
 </manifest>

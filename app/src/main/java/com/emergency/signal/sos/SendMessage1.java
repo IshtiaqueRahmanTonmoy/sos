@@ -1,5 +1,4 @@
-package com.example.pulkit.sos;
-import android.*;
+package com.emergency.signal.sos;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,12 +18,10 @@ import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.DialogPreference;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -59,9 +56,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-import java.util.jar.*;
 
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class SendMessage1 extends AppCompatActivity
@@ -99,7 +94,7 @@ public class SendMessage1 extends AppCompatActivity
             setSupportActionBar(toolbar);
 //            Log.d("hehe","onCreate is called");
 
-
+            //ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},1);
             timer=(TextView) findViewById(R.id.timer);
             button1 = (ImageView) findViewById(R.id.sos_button);
             button_stop = (ImageButton) findViewById(R.id.audio_stop_button);
@@ -378,6 +373,13 @@ public class SendMessage1 extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_SMS)) {
+            // You may display a non-blocking explanation here, read more in the documentation:
+            // https://developer.android.com/training/permissions/requesting.html
+        }
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, 1);
+
         switch (requestCode) {
             case RequestPermissionCode:
                 if (grantResults.length > 0) {
@@ -446,7 +448,7 @@ public class SendMessage1 extends AppCompatActivity
             return true;
         } if(id == R.id.settings)
         {
-            Intent i = new Intent(SendMessage1.this, com.example.pulkit.sos.Settings.class);
+            Intent i = new Intent(SendMessage1.this, com.emergency.signal.sos.Settings.class);
             startActivity(i);
             return true;
         }

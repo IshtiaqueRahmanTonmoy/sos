@@ -1,4 +1,4 @@
-package com.example.pulkit.sos;
+package com.emergency.signal.sos;
 
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
