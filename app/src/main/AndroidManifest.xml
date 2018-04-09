@@ -80,7 +80,11 @@
         <activity android:name=".Custom_Drawing" />
         <activity android:name=".Settings" />
         <activity android:name=".WelcomeActivity" />
-        <activity android:name=".MainActivity1"></activity>
+        <activity android:name=".MainActivity1" />
+        <activity
+            android:name=".ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

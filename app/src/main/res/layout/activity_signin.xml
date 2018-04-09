@@ -1,210 +1,366 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
-
-    xmlns:tools="http://schemas.android.com/tools"
-
+<ScrollView
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="@color/colorPrimary"
+       android:orientation="vertical"
+       android:clickable="true"
+       android:focusableInTouchMode="true"
+       android:scrollbarAlwaysDrawVerticalTrack="true">
 
+      <TextView
+          android:id="@+id/login_title"
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="16dp"
+          android:layout_marginTop="10dp"
+          android:gravity="center_horizontal"
+          android:text="Create Account"
+          android:textColor="#fff"
+          android:textSize="26sp"
+          android:textStyle="bold" />
 
+      <RelativeLayout
+          android:layout_width="fill_parent"
+          android:layout_height="wrap_content"
+          android:layout_below="@+id/login_title"
+          android:layout_marginLeft="30dp"
+          android:layout_marginRight="30dp"
+          android:layout_marginTop="35dp"
+          android:background="#fff"
+          android:elevation="4dp"
+          android:orientation="vertical"
+          android:padding="20dp">
 
-    <LinearLayout
+         <LinearLayout
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:paddingTop="30dp">
 
-        android:orientation="vertical"
 
-        android:layout_width="match_parent"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        android:layout_height="wrap_content"
+               <EditText
 
-        android:padding="30dp"
+                   android:id="@+id/nameEditText"
+                   android:layout_marginTop="5dp"
+                   android:layout_width="match_parent"
 
-        android:layout_centerVertical="true"
+                   android:layout_height="wrap_content"
 
-        android:layout_centerHorizontal="true"
+                   android:background="@android:color/white"
 
-        android:id="@+id/linearLayout">
+                   android:hint="Name"
 
+                   android:nextFocusDown="@+id/passwordEditText"
 
+                   android:padding="8dp"
 
-        <EditText
+                   android:layout_marginBottom="6dp"
 
-            android:id="@+id/nameEditText"
+                   android:textColor="@android:color/black"
 
-            android:layout_width="match_parent"
+                   android:textColorHint="@color/colorDivider"
 
-            android:layout_height="wrap_content"
+                   android:textSize="20sp" />
 
-            android:background="@android:color/white"
+            </android.support.design.widget.TextInputLayout>
 
-            android:hint="Name"
 
-            android:nextFocusDown="@+id/passwordEditText"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            android:padding="10dp"
+               <EditText
 
-            android:layout_marginBottom="10dp"
+                   android:id="@+id/emailEditText"
 
-            android:textColor="@android:color/black"
+                   android:layout_width="match_parent"
 
-            android:textColorHint="@color/colorDivider"
+                   android:layout_height="wrap_content"
 
-            android:textSize="20sp" />
+                   android:background="@android:color/white"
 
+                   android:hint="Email"
 
+                   android:inputType="textEmailAddress"
 
-        <EditText
+                   android:nextFocusDown="@+id/passwordEditText"
 
-            android:id="@+id/emailEditText"
+                   android:padding="8dp"
 
-            android:layout_width="match_parent"
+                   android:layout_marginBottom="6dp"
 
-            android:layout_height="wrap_content"
+                   android:textColor="@android:color/black"
 
-            android:background="@android:color/white"
+                   android:textColorHint="@color/colorDivider"
 
-            android:hint="Email"
+                   android:textSize="20sp" />
 
-            android:inputType="textEmailAddress"
 
-            android:nextFocusDown="@+id/passwordEditText"
 
-            android:padding="10dp"
+            </android.support.design.widget.TextInputLayout>
 
-            android:layout_marginBottom="10dp"
 
-            android:textColor="@android:color/black"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            android:textColorHint="@color/colorDivider"
+               <EditText
 
-            android:textSize="20sp" />
+                   android:id="@+id/addressEditText"
 
+                   android:layout_width="match_parent"
 
+                   android:layout_height="wrap_content"
 
-        <EditText
+                   android:background="@android:color/white"
 
-            android:id="@+id/passwordEditText"
+                   android:hint="Address"
 
-            android:layout_width="match_parent"
+                   android:inputType="textEmailAddress"
 
-            android:layout_height="wrap_content"
+                   android:nextFocusDown="@+id/addressEditText"
 
-            android:background="@android:color/white"
+                   android:padding="8dp"
 
-            android:hint="Password"
+                   android:layout_marginBottom="6dp"
 
-            android:inputType="textPassword"
+                   android:textColor="@android:color/black"
 
-            android:nextFocusDown="@+id/passwordEditText"
+                   android:textColorHint="@color/colorDivider"
 
-            android:padding="10dp"
+                   android:textSize="20sp" />
 
-            android:layout_marginBottom="10dp"
 
-            android:textColor="@android:color/black"
+            </android.support.design.widget.TextInputLayout>
 
-            android:textColorHint="@color/colorDivider"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            android:textSize="20sp" />
+               <EditText
 
+                   android:id="@+id/genderEditText"
 
+                   android:layout_width="match_parent"
 
-        <EditText
+                   android:layout_height="wrap_content"
 
-            android:id="@+id/confirmPasswordEditText"
+                   android:background="@android:color/white"
 
-            android:layout_width="match_parent"
+                   android:hint="Gender"
 
-            android:layout_height="wrap_content"
+                   android:inputType="textEmailAddress"
 
-            android:background="@android:color/white"
+                   android:nextFocusDown="@+id/passwordEditText"
 
-            android:hint="Confirm Password"
+                   android:padding="8dp"
 
-            android:inputType="textPassword"
+                   android:layout_marginBottom="6dp"
 
-            android:nextFocusDown="@+id/passwordEditText"
+                   android:textColor="@android:color/black"
 
-            android:padding="10dp"
+                   android:textColorHint="@color/colorDivider"
 
-            android:layout_marginBottom="10dp"
+                   android:textSize="20sp" />
 
-            android:textColor="@android:color/black"
 
-            android:textColorHint="@color/colorDivider"
 
-            android:textSize="20sp" />
+            </android.support.design.widget.TextInputLayout>
 
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <EditText
 
-        <Button
+                   android:id="@+id/phoneEditText"
 
-            android:id="@+id/createUserButton"
+                   android:layout_width="match_parent"
 
-            android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
 
-            android:layout_height="wrap_content"
+                   android:background="@android:color/white"
 
-            android:padding="10dp"
+                   android:hint="Phone"
 
-            android:text="Sign up"
+                   android:inputType="number"
 
-            android:background="@color/colorAccent"
+                   android:nextFocusDown="@+id/phoneEditText"
 
-            android:layout_marginTop="15dp"
+                   android:padding="8dp"
 
-            android:textColor="@color/colorTextIcons" />
+                   android:layout_marginBottom="6dp"
 
+                   android:textColor="@android:color/black"
 
+                   android:textColorHint="@color/colorDivider"
 
-        <TextView
+                   android:textSize="20sp" />
 
-            android:layout_width="wrap_content"
 
-            android:layout_height="wrap_content"
+            </android.support.design.widget.TextInputLayout>
 
-            android:layout_marginTop="20dp"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <EditText
 
-            android:textColor="@color/colorTextIcons"
+                   android:id="@+id/roleEditText"
 
-            android:textStyle="bold"
+                   android:layout_width="match_parent"
 
-            android:textSize="15sp"
+                   android:layout_height="wrap_content"
 
-            android:text="Already have an account? Log in here!"
+                   android:background="@android:color/white"
 
-            android:id="@+id/loginTextView"
+                   android:hint="Role"
 
-            android:layout_gravity="center_horizontal" />
+                   android:inputType="textEmailAddress"
 
+                   android:nextFocusDown="@+id/roleEditText"
 
+                   android:padding="8dp"
 
-    </LinearLayout>
+                   android:layout_marginBottom="6dp"
 
+                   android:textColor="@android:color/black"
 
+                   android:textColorHint="@color/colorDivider"
 
-    <TextView
+                   android:textSize="20sp" />
 
-        android:layout_width="wrap_content"
+            </android.support.design.widget.TextInputLayout>
 
-        android:layout_height="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <EditText
 
-        android:text="Create Account"
+                   android:id="@+id/passwordEditText"
 
-        android:textColor="@color/colorPrimaryLight"
+                   android:layout_width="match_parent"
 
-        android:textSize="30dp"
+                   android:layout_height="wrap_content"
 
-        android:textStyle="bold"
+                   android:background="@android:color/white"
 
-        android:layout_above="@+id/linearLayout"
+                   android:hint="Password"
 
-        android:layout_centerHorizontal="true" />
+                   android:inputType="textPassword"
 
+                   android:nextFocusDown="@+id/passwordEditText"
 
+                   android:padding="8dp"
 
-</RelativeLayout>
+                   android:layout_marginBottom="6dp"
+
+                   android:textColor="@android:color/black"
+
+                   android:textColorHint="@color/colorDivider"
+
+                   android:textSize="20sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <EditText
+
+                   android:id="@+id/confirmPasswordEditText"
+
+                   android:layout_width="match_parent"
+
+                   android:layout_height="wrap_content"
+
+                   android:background="@android:color/white"
+
+                   android:hint="Confirm Password"
+
+                   android:inputType="textPassword"
+
+                   android:nextFocusDown="@+id/passwordEditText"
+
+                   android:padding="8dp"
+
+                   android:layout_marginBottom="6dp"
+
+                   android:textColor="@android:color/black"
+
+                   android:textColorHint="@color/colorDivider"
+
+                   android:textSize="20sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+
+                android:id="@+id/createUserButton"
+
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:padding="10dp"
+
+                android:text="Sign up"
+
+                android:background="@color/colorAccent"
+
+                android:layout_marginTop="5dp"
+
+                android:textColor="@color/colorTextIcons" />
+
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+
+                android:textColor="@color/colorTextIcons"
+
+                android:textStyle="bold"
+
+                android:textSize="15sp"
+                android:layout_below="@+id/createUserButton"
+                android:text="Already have an account? Log in here!"
+
+                android:id="@+id/loginTextView"
+
+                android:layout_gravity="center_horizontal" />
+
+         </LinearLayout>
+      </RelativeLayout>
+
+      <ImageButton
+          android:id="@+id/user_profile_photo"
+          android:layout_width="100dp"
+          android:layout_height="100dp"
+          android:layout_below="@+id/login_title"
+          android:layout_centerHorizontal="true"
+          android:layout_marginTop="1dp"
+          android:paddingLeft="1dp"
+          android:background="@drawable/phone1"
+          android:elevation="8dp"
+          android:src="@drawable/nav2" />
+   </RelativeLayout>
+</ScrollView>

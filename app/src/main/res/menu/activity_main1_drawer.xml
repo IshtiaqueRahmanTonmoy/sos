@@ -2,10 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+
         <item
             android:id="@+id/nav_edit_contact"
             android:icon="@android:drawable/ic_menu_call"
             android:title="Edit Contacts" />
+        <item
+            android:id="@+id/nav_view_profile"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="View Profile" />
         <item
             android:id="@+id/nav_open_map"
             android:icon="@android:drawable/ic_menu_mapmode"

@@ -48,6 +48,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 
+import com.emergency.signal.entity.users;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.skyfishjy.library.RippleBackground;
 
 import java.io.File;
@@ -86,37 +94,19 @@ public class SendMessage1 extends AppCompatActivity
     //boolean notified;
     GestureDetectorCompat mDetector;
     private static final String DEBUG_TAG = "Gestures";
+    private FirebaseAuth auth;
+    DatabaseReference databaseUsers;
+    String emailval;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_send_message1);
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-//            Log.d("hehe","onCreate is called");
 
-            //ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.SEND_SMS},1);
-            timer=(TextView) findViewById(R.id.timer);
-            button1 = (ImageView) findViewById(R.id.sos_button);
-            button_stop = (ImageButton) findViewById(R.id.audio_stop_button);
-            button_stop.setVisibility(View.INVISIBLE);
-
-           final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
-           //ImageView imageView=(ImageView)findViewById(R.id.sos_button);
-            button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    sendMessage(view);
-                    rippleBackground.startRippleAnimation();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
+            emailval = getIntent().getStringExtra("email");
+            auth = FirebaseAuth.getInstance();
             pattern= (Button) findViewById(R.id.pattern);
             button_map = (ImageButton) findViewById(R.id.temp_button);
             stop_recording_text = (TextView) findViewById(R.id.stop_recording_text);
@@ -465,7 +455,14 @@ public class SendMessage1 extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        if(id == R.id.nav_fall_detect)
+
+        if(id == R.id.nav_view_profile)
+        {
+           Intent intent = new Intent(SendMessage1.this,ScrollingActivity.class);
+           intent.putExtra("email",emailval);
+           startActivity(intent);
+        }
+        else if(id == R.id.nav_fall_detect)
         {
             AlertDialog.Builder detect = new AlertDialog.Builder(this);
             detect.setTitle("Fall Detection Info").setMessage("This feature of the app helps you if in any situation your phone falls on the ground.It triggers the alarm and if not paused by double tapping the screen will ultimately send sms to upto 5 emergency contacts.").setPositiveButton("OK",new DialogInterface.OnClickListener(){
