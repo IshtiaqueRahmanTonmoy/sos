@@ -30,16 +30,33 @@
                 app:srcCompat="@drawable/ic_email" />
 
             <TextView
-                android:id="@+id/emailTxt"
+                android:id="@+id/emailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ivContactItem1"
                 android:layout_toRightOf="@id/ivContactItem1"
-                android:text="email@gmail.com"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Email"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
+
+            <TextView
+                android:id="@+id/emailTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emailText"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@id/ivContactItem1"
+                android:layout_toRightOf="@id/ivContactItem1"
+                android:text="email@gmail.com"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="#727272" />
+
 
             <Button
                 android:id="@+id/chkState1"
@@ -159,6 +176,9 @@
 
 
         </RelativeLayout>
+
+        <include layout="@layout/item_divider" />
+
 
         <RelativeLayout
             android:layout_width="match_parent"

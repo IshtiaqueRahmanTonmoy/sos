@@ -1,4 +1,5 @@
 package com.emergency.signal.sos;
+import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,10 +19,12 @@ import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.DialogPreference;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -48,14 +51,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 
-import com.emergency.signal.entity.users;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.skyfishjy.library.RippleBackground;
 
 import java.io.File;
@@ -64,7 +59,9 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.jar.*;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class SendMessage1 extends AppCompatActivity
@@ -91,67 +88,86 @@ public class SendMessage1 extends AppCompatActivity
     TextView timer;
     String finalAddress = null;
     double latitude,longitude;
+    String emailval;
     //boolean notified;
     GestureDetectorCompat mDetector;
     private static final String DEBUG_TAG = "Gestures";
-    private FirebaseAuth auth;
-    DatabaseReference databaseUsers;
-    String emailval;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_send_message1);
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_send_message1);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+//            Log.d("hehe","onCreate is called");
 
-            emailval = getIntent().getStringExtra("email");
-            auth = FirebaseAuth.getInstance();
-            pattern= (Button) findViewById(R.id.pattern);
-            button_map = (ImageButton) findViewById(R.id.temp_button);
-            stop_recording_text = (TextView) findViewById(R.id.stop_recording_text);
-            mDetector = new GestureDetectorCompat(this, this);
-            mDetector.setOnDoubleTapListener(this);
-            random = new Random();
+        emailval = getIntent().getStringExtra("email");
+        timer=(TextView) findViewById(R.id.timer);
+        button1 = (ImageView) findViewById(R.id.sos_button);
+        button_stop = (ImageButton) findViewById(R.id.audio_stop_button);
+        button_stop.setVisibility(View.INVISIBLE);
+
+        final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
+        //ImageView imageView=(ImageView)findViewById(R.id.sos_button);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    sendMessage(view);
+                    rippleBackground.startRippleAnimation();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
+        pattern= (Button) findViewById(R.id.pattern);
+        button_map = (ImageButton) findViewById(R.id.temp_button);
+        stop_recording_text = (TextView) findViewById(R.id.stop_recording_text);
+        mDetector = new GestureDetectorCompat(this, this);
+        mDetector.setOnDoubleTapListener(this);
+        random = new Random();
 //            Intent i = getIntent();
 //            if(i.getBooleanExtra("status",false)){
 //                dTap = 1;
 //                pattern.setVisibility(View.INVISIBLE);
 //            }
-            SharedPreferences sp = getSharedPreferences("Contacts", Context.MODE_PRIVATE);
-            String s1 = sp.getString("1", "chooseContact1");
-            String s2 = sp.getString("2", "chooseContact2");
-            String s3 = sp.getString("3", "chooseContact3");
-            String s4 = sp.getString("4", "chooseContact4");
-            String s5 = sp.getString("5", "chooseContact5");
-            if(s1.equals("chooseContact1") && s2.equals("chooseContact2") && s3.equals("chooseContact3") && s4.equals("chooseContact4") && s5.equals("chooseContact5"))
-            {
-                AlertDialog.Builder detect = new AlertDialog.Builder(SendMessage1.this);
-                detect.setMessage("Add atleast one emergency contact to continue.").setPositiveButton("OK", new DialogInterface.OnClickListener(){
+        SharedPreferences sp = getSharedPreferences("Contacts", Context.MODE_PRIVATE);
+        String s1 = sp.getString("1", "chooseContact1");
+        String s2 = sp.getString("2", "chooseContact2");
+        String s3 = sp.getString("3", "chooseContact3");
+        String s4 = sp.getString("4", "chooseContact4");
+        String s5 = sp.getString("5", "chooseContact5");
+        if(s1.equals("chooseContact1") && s2.equals("chooseContact2") && s3.equals("chooseContact3") && s4.equals("chooseContact4") && s5.equals("chooseContact5"))
+        {
+            AlertDialog.Builder detect = new AlertDialog.Builder(SendMessage1.this);
+            detect.setMessage("Add atleast one emergency contact to continue.").setPositiveButton("OK", new DialogInterface.OnClickListener(){
 
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                        Intent in = new Intent(SendMessage1.this,MainActivity1.class);
-                        startActivity(in);
-                    }
-                });
-                detect.setCancelable(false);
-                AlertDialog alert=detect.create();
-                alert.show();
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                    Intent in = new Intent(SendMessage1.this,MainActivity1.class);
+                    startActivity(in);
+                }
+            });
+            detect.setCancelable(false);
+            AlertDialog alert=detect.create();
+            alert.show();
 
 
-            }
+        }
 
-            sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-            accelerator = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-            sm.registerListener((SensorEventListener) this, accelerator, SensorManager.SENSOR_DELAY_FASTEST);
-           location_manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        sm = (SensorManager) getSystemService(SENSOR_SERVICE);
+        accelerator = sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sm.registerListener((SensorEventListener) this, accelerator, SensorManager.SENSOR_DELAY_FASTEST);
+        location_manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 //            x = y = z = 10000;
 //            gravity = 0;
 //            gravmax = 10000;
 //            count = 0;
-            latitude=longitude=0.0;
+        latitude=longitude=0.0;
 
 //        ll = new LocationListener() {
 //            @Override
@@ -186,7 +202,7 @@ public class SendMessage1 extends AppCompatActivity
                     alert.show();
 
                 }
-                    else {
+                else {
                     Snackbar.make(view, "Go to your current location", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     Intent intent = new Intent(SendMessage1.this, MapsActivity.class);
                     startActivity(intent);
@@ -222,7 +238,7 @@ public class SendMessage1 extends AppCompatActivity
 
         if(location_manager.isProviderEnabled(LocationManager.GPS_PROVIDER))
             return true;
-            return false;
+        return false;
     }
 
     public boolean isWifiEnabled(){
@@ -275,13 +291,13 @@ public class SendMessage1 extends AppCompatActivity
                     }
                 });
         if(Message == "Data") {
-        gps_dialog.setNegativeButton("Cancel",new DialogInterface.OnClickListener(){
+            gps_dialog.setNegativeButton("Cancel",new DialogInterface.OnClickListener(){
 
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
         }
 
         AlertDialog alert=gps_dialog.create();
@@ -332,7 +348,7 @@ public class SendMessage1 extends AppCompatActivity
         stop_recording_text.setVisibility(View.INVISIBLE);
         button1.setEnabled(true);
         button1.setImageResource(R.drawable.sosbtn);
-     //   Toast.makeText(SendMessage1.this, "Recording complete", Toast.LENGTH_SHORT).show();
+        //   Toast.makeText(SendMessage1.this, "Recording complete", Toast.LENGTH_SHORT).show();
         Snackbar.make(view, "Recording Complete", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
@@ -363,13 +379,6 @@ public class SendMessage1 extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_SMS)) {
-            // You may display a non-blocking explanation here, read more in the documentation:
-            // https://developer.android.com/training/permissions/requesting.html
-        }
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, 1);
-
         switch (requestCode) {
             case RequestPermissionCode:
                 if (grantResults.length > 0) {
@@ -455,12 +464,11 @@ public class SendMessage1 extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if(id == R.id.nav_view_profile)
         {
-           Intent intent = new Intent(SendMessage1.this,ScrollingActivity.class);
-           intent.putExtra("email",emailval);
-           startActivity(intent);
+            Intent intent = new Intent(SendMessage1.this,ScrollingActivity.class);
+            intent.putExtra("email",emailval);
+            startActivity(intent);
         }
         else if(id == R.id.nav_fall_detect)
         {
@@ -477,7 +485,7 @@ public class SendMessage1 extends AppCompatActivity
             alert.show();
 
         }
-       else if (id == R.id.nav_edit_contact) {
+        else if (id == R.id.nav_edit_contact) {
             Intent intent = new Intent(this, MainActivity1.class);
             startActivity(intent);
             // Handle the camera action
@@ -576,7 +584,7 @@ public class SendMessage1 extends AppCompatActivity
     public boolean onDoubleTap(MotionEvent event) {
 //        Log.d(DEBUG_TAG, "onDoubleTap: " + event.toString());
 
-       // Toast.makeText(this, "Double tap", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "Double tap", Toast.LENGTH_SHORT).show();
 
         dTap = 1;
         timer.setVisibility(View.INVISIBLE);
@@ -767,14 +775,14 @@ public class SendMessage1 extends AppCompatActivity
                     {
                         publishProgress(500*i/1000+10);
                     }
-                 //   Log.d("hehe","thread is running");
+                    //   Log.d("hehe","thread is running");
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 if (dTap == 1) {
                     dTap=0;
-                   // Log.d("hehe","dtap is 1");
+                    // Log.d("hehe","dtap is 1");
                     publishProgress(2);
                     return null;
                 }
@@ -784,7 +792,7 @@ public class SendMessage1 extends AppCompatActivity
 
 
 
-          //  Log.d("hehe","starting recording");
+            //  Log.d("hehe","starting recording");
 //            Log.d("hehe","Send Message loc: "+finalAddress);
             startRecording();
             SharedPreferences sp = getSharedPreferences("Contacts", Context.MODE_PRIVATE);
@@ -806,7 +814,7 @@ public class SendMessage1 extends AppCompatActivity
             }
 //            Log.d("hehe",s1);
             if(!s1.equals("chooseContact1")) {
-               // Toast.makeText(SendMessage1.this,"this is contact one "+ finalAddress,Toast.LENGTH_SHORT).show();
+                // Toast.makeText(SendMessage1.this,"this is contact one "+ finalAddress,Toast.LENGTH_SHORT).show();
 //                    Log.d("hehe",finalAddress+"this is sms 1");
 
                 sms.sendTextMessage(s1,null,finalAddress,null,null);
@@ -873,7 +881,7 @@ public class SendMessage1 extends AppCompatActivity
                 if (!f.exists())
                     f.mkdirs();
                 audio_path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/SOS_Recordings/" + "SOS" + CreateRandomAudioFileName(3) + "Recording.3gp";
-              //  Toast.makeText(SendMessage1.this, audio_path, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(SendMessage1.this, audio_path, Toast.LENGTH_SHORT).show();
                 MediaRecorderReady();
 
                 try {
@@ -884,7 +892,7 @@ public class SendMessage1 extends AppCompatActivity
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
-               // Toast.makeText(SendMessage1.this, "Recording started", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(SendMessage1.this, "Recording started", Toast.LENGTH_SHORT).show();
                 // button_stop.setVisibility(View.VISIBLE);
                 publishProgress(3);
             } else {
@@ -919,11 +927,11 @@ public class SendMessage1 extends AppCompatActivity
         }
         @Override
         protected void onPreExecute() {
-        //    Log.d("hehe","location listener created again");
+            //    Log.d("hehe","location listener created again");
             ll = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                   // Log.d("hehe","location changed");
+                    // Log.d("hehe","location changed");
                     notified = true;
                 }
                 @Override
@@ -939,8 +947,8 @@ public class SendMessage1 extends AppCompatActivity
         @Override
         protected Void doInBackground(Void... voids) {
 
-          finalAddress="Hey.. I am in Danger. Please, help me ASAP!!";
-          //  Log.d("hehe","hereeeeee");
+            finalAddress="Hey.. I am in Danger. Please, help me ASAP!!";
+            //  Log.d("hehe","hereeeeee");
             Log.d("hehe","GPS is:"+isGPSEnabled());
             while(!isGPSEnabled()){}
             Log.d("hehe","here again");
@@ -962,7 +970,7 @@ public class SendMessage1 extends AppCompatActivity
                 try {
                     addresses = geocoder.getFromLocation(latitude, longitude, 1);
                     // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-                  //  Log.d("hehe",addresses);
+                    //  Log.d("hehe",addresses);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -990,7 +998,7 @@ public class SendMessage1 extends AppCompatActivity
 
             try {
                 publishProgress(2);
-              //  Log.d("hehe","progress published");
+                //  Log.d("hehe","progress published");
                 while (!notified){}  //blocking position
                 //Log.d("hehe","notified");
 //                location_manager.requestLocationUpdates(provider,0,0,ll);
@@ -998,11 +1006,11 @@ public class SendMessage1 extends AppCompatActivity
                     location = location_manager.getLastKnownLocation(provider);
                 }
                 else
-                 Log.d("hehe","Location Manager is null");
+                    Log.d("hehe","Location Manager is null");
                 if (location != null){
                     latitude=location.getLatitude();
                     longitude=location.getLongitude();
-                   Log.d("hehe",""+latitude+" "+longitude);
+                    Log.d("hehe",""+latitude+" "+longitude);
                 }
                 else
                     Log.d("hehe","location is null");
