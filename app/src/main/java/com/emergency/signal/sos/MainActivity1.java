@@ -38,12 +38,15 @@ public class MainActivity1 extends AppCompatActivity implements NavigationView.O
     Button button1,button2,button3,button4,button5;
     ImageButton d1,d2,d3,d4,d5;
     SharedPreferences sp;
+    String emailval;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        emailval = getIntent().getStringExtra("email");
 
         button1 = (Button) findViewById(R.id.contact1);
         button2 = (Button) findViewById(R.id.contact2);
@@ -376,7 +379,13 @@ public class MainActivity1 extends AppCompatActivity implements NavigationView.O
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-            if(id == R.id.nav_fall_detect)
+        if(id == R.id.nav_view_profile)
+        {
+            Intent intent = new Intent(MainActivity1.this,ScrollingActivity.class);
+            intent.putExtra("email",emailval);
+            startActivity(intent);
+        }
+        else if(id == R.id.nav_fall_detect)
             {
                 AlertDialog.Builder detect = new AlertDialog.Builder(this);
 

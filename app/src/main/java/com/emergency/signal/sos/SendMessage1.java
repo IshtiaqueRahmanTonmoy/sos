@@ -149,6 +149,7 @@ public class SendMessage1 extends AppCompatActivity
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.cancel();
                     Intent in = new Intent(SendMessage1.this,MainActivity1.class);
+                    in.putExtra("email",emailval);
                     startActivity(in);
                 }
             });
