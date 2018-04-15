@@ -46,14 +46,18 @@ public class SigninActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private EditText email;
     private EditText password,name,address,gender,phone,role;
+    String uid;
     private FirebaseAuth auth;
     private TextView logintext;
+    String photoUrl;
     DatabaseReference databaseUsers;
     int Image_Request_Code = 7;
     Uri FilePathUri;
     StorageReference storageReference;
     DatabaseReference databaseReference;
 
+    String emailtext,passwordtext,nametext,addresstext,gendertext,phoneNumber,roletext,createdtext;
+    Long tsLong;
     String Storage_Path = "All_Image_Uploads/";
     public static final String Database_Path = "All_Image_Uploads_Database";
 
@@ -126,15 +130,15 @@ public class SigninActivity extends AppCompatActivity {
                     Utils.showToast(SigninActivity.this, "Please input your password");
                 } else {
 
-                    final String emailtext = email.getText().toString();
-                    String passwordtext = password.getText().toString();
-                    final String nametext = name.getText().toString();
-                    final String addresstext = address.getText().toString();
-                    final String gendertext = gender.getText().toString();
-                    final String phoneNumber = phone.getText().toString();
-                    final String roletext = role.getText().toString();
-                    Long tsLong = System.currentTimeMillis()/1000;
-                    final String createdtext = tsLong.toString();
+                    emailtext = email.getText().toString();
+                    passwordtext = password.getText().toString();
+                    nametext = name.getText().toString();
+                    addresstext = address.getText().toString();
+                    gendertext = gender.getText().toString();
+                    phoneNumber = phone.getText().toString();
+                    roletext = role.getText().toString();
+                    tsLong = System.currentTimeMillis()/1000;
+                    createdtext = tsLong.toString();
                     //String url = "https://firebasestorage.googleapis.com/v0/b/i-help-e7082.appspot.com/o/users%2F";
                     //final String photoUrl = "?alt=media&token=6d7f7e63-3478-4af5-b0d1-cfdf49ba9a61";
 
@@ -156,11 +160,11 @@ public class SigninActivity extends AppCompatActivity {
                                         Utils.showToast(SigninActivity.this, "Register successful!");
                                         FirebaseUser currentFirebaseUser = auth.getInstance().getCurrentUser() ;
                                         if (currentFirebaseUser != null) {
-                                            final String uid = currentFirebaseUser.getUid();
+                                            uid = currentFirebaseUser.getUid();
                                             storageReference2nd.putFile(FilePathUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                                 @Override
                                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                    String photoUrl = taskSnapshot.getDownloadUrl().toString();
+                                                    photoUrl = taskSnapshot.getDownloadUrl().toString();
                                                     addValue(uid,addresstext,createdtext,emailtext,gendertext,nametext,phoneNumber,photoUrl,roletext);
                                                 }
                                             });

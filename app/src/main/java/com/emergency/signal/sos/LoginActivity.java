@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                                         } else {
                                             //Toast.makeText(LoginActivity.this, "" + currentFirebaseUser.getUid(), Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(LoginActivity.this, SendMessage1.class);
+                                            progressDialog.dismiss();
                                             intent.putExtra("email",emailtext);
                                             startActivity(intent);
                                             finish();
@@ -101,5 +102,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showProcessDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Login");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+
     }
 }

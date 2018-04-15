@@ -23,39 +23,15 @@ public class users {
 
     }
     public users(String address, String created, String email, String gender, String name, String phoneNumber, String photoUrl, String role, String uid) {
-       this.address = address;
-       this.created = created;
-       this.email = email;
-       this.gender = gender;
-       this.name = name;
-       this.phoneNumber = phoneNumber;
-       this.photoUrl = photoUrl;
-       this.role = role;
-       this.uid = uid;
-    }
-
-    public String getUserId() {
-        return uid;
-    }
-
-    public void setUserId(String uid) {
-        this.uid = uid;
-    }
-
-    public String getCreated() {
-        return created;
-    }
-
-    public void setCreated(String created) {
+        this.address = address;
         this.created = created;
-    }
-
-    public String getPhoto() {
-        return photoUrl;
-    }
-
-    public void setPhoto(String photoUrl) {
+        this.email = email;
+        this.gender = gender;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
         this.photoUrl = photoUrl;
+        this.role = role;
+        this.uid = uid;
     }
 
     public String getTime() {
@@ -65,13 +41,6 @@ public class users {
     public void setTime(String time) {
         this.time = time;
     }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getEmail() {
         return email;
@@ -79,6 +48,14 @@ public class users {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public String getAddress() {
@@ -97,11 +74,11 @@ public class users {
         this.gender = gender;
     }
 
-    public String getPhone() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhone(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -119,5 +96,30 @@ public class users {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUid() {
+
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

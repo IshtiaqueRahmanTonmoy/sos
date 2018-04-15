@@ -1,5 +1,6 @@
 package com.emergency.signal.sos;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.emergency.signal.entity.users;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +29,7 @@ public class ScrollingActivity extends AppCompatActivity {
     Button roleBtn;
     Context context;
     String emailval;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class ScrollingActivity extends AppCompatActivity {
 
         roleBtn = (Button) findViewById(R.id.chkState1);
 
+        showProcessDialog();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("users");
         myRef.orderByChild("email").equalTo(emailval).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -53,11 +57,19 @@ public class ScrollingActivity extends AppCompatActivity {
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
 
                     String email = childDataSnapshot.child("email").getValue().toString();
-                    String mobile = childDataSnapshot.child("phone").getValue().toString();
+                    String mobile = childDataSnapshot.child("phoneNumber").getValue().toString();
                     String addess = childDataSnapshot.child("address").getValue().toString();
                     //String contacts = childDataSnapshot.child("connects").getValue().toString();
                     String role = childDataSnapshot.child("role").getValue().toString();
-                    String image = childDataSnapshot.child("photo").getValue().toString();
+                    String image = childDataSnapshot.child("photoUrl").getValue().toString();
+
+                    DataSnapshot contactSnapshot = childDataSnapshot.child("connects");
+                    Iterable<DataSnapshot> contactChildren = contactSnapshot.getChildren();
+                    for (DataSnapshot contact : contactChildren) {
+                        users c = contact.getValue(users.class);
+                        Toast.makeText(context, ""+c.toString(), Toast.LENGTH_SHORT).show();
+                        //Log.d("datashoft",c.getUserId());
+                    }
 
                     Log.d("image",image);
                     //Toast.makeText(context, ""+image, Toast.LENGTH_SHORT).show();
@@ -68,6 +80,7 @@ public class ScrollingActivity extends AppCompatActivity {
                    addressTxt.setText(addess);
                    //contactsTxt.setText(contacts);
                    roleBtn.setText(role);
+                   progressDialog.dismiss();
                     //Log.d("key", "PARENT: "+ childDataSnapshot.getKey());
                     //Log.d("value",""+ childDataSnapshot.child("name").getValue());
                 }
@@ -75,7 +88,6 @@ public class ScrollingActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
@@ -88,5 +100,12 @@ public class ScrollingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void showProcessDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Getting profile informations");
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
     }
 }
