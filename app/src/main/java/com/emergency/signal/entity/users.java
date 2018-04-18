@@ -15,6 +15,7 @@ public class users {
     String photoUrl;
     String address;
     String gender;
+    String deviceid;
     String phoneNumber;
     String role;
     String password;
@@ -22,16 +23,26 @@ public class users {
     users(){
 
     }
-    public users(String address, String created, String email, String gender, String name, String phoneNumber, String photoUrl, String role, String uid) {
+
+    public users(String address, String created, String deviceid, String email, String gender, String name, String phoneNumber, String photoUrl, String role, String uid) {
         this.address = address;
         this.created = created;
         this.email = email;
+        this.deviceid = deviceid;
         this.gender = gender;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.photoUrl = photoUrl;
         this.role = role;
         this.uid = uid;
+    }
+
+    public String getDeviceid() {
+        return deviceid;
+    }
+
+    public void setDeviceid(String deviceid) {
+        this.deviceid = deviceid;
     }
 
     public String getTime() {

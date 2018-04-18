@@ -1,7 +1,10 @@
 package com.emergency.signal.sos;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -55,11 +59,22 @@ public class SigninActivity extends AppCompatActivity {
     Uri FilePathUri;
     StorageReference storageReference;
     DatabaseReference databaseReference;
-
-    String emailtext,passwordtext,nametext,addresstext,gendertext,phoneNumber,roletext,createdtext;
+    TelephonyManager telephonyManager;
+    String emailtext,passwordtext,nametext,addresstext,gendertext,phoneNumber,roletext,createdtext,deviceidtext;
     Long tsLong;
     String Storage_Path = "All_Image_Uploads/";
     public static final String Database_Path = "All_Image_Uploads_Database";
+
+    AlertDialog alertDialog1;
+    String[] AlertDialogItems = new String[]{
+            "male",
+            "female"
+    };
+
+    String[] AlertDialogItems1 = new String[]{
+            "user",
+            "admin"
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +86,7 @@ public class SigninActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         databaseUsers = FirebaseDatabase.getInstance().getReference("users");
 
+        telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         storageReference = FirebaseStorage.getInstance().getReference();
 
         // Assign FirebaseDatabase instance with root database name.
@@ -88,6 +104,19 @@ public class SigninActivity extends AppCompatActivity {
         phone = (EditText) findViewById(R.id.phoneEditText);
         role = (EditText) findViewById(R.id.roleEditText);
 
+        gender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateAlertDialogWithRadioButtonGroup1();
+            }
+        });
+
+        role.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateAlertDialogWithRadioButtonGroup2();
+            }
+        });
         imageview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,6 +159,8 @@ public class SigninActivity extends AppCompatActivity {
                     Utils.showToast(SigninActivity.this, "Please input your password");
                 } else {
 
+                    deviceidtext = telephonyManager.getDeviceId();
+                    Log.d("devicid",deviceidtext);
                     emailtext = email.getText().toString();
                     passwordtext = password.getText().toString();
                     nametext = name.getText().toString();
@@ -165,7 +196,7 @@ public class SigninActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                                     photoUrl = taskSnapshot.getDownloadUrl().toString();
-                                                    addValue(uid,addresstext,createdtext,emailtext,gendertext,nametext,phoneNumber,photoUrl,roletext);
+                                                    addValue(uid,addresstext,createdtext,deviceidtext,emailtext,gendertext,nametext,phoneNumber,photoUrl,roletext);
                                                 }
                                             });
 
@@ -186,6 +217,55 @@ public class SigninActivity extends AppCompatActivity {
         });
     }
 
+    private void CreateAlertDialogWithRadioButtonGroup2() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SigninActivity.this);
+
+        builder.setTitle("Select Your Role");
+
+        builder.setSingleChoiceItems(AlertDialogItems1, -1, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int item) {
+
+                switch(item)
+                {
+                    case 0:
+                        role.setText("user");
+                        break;
+                    case 1:
+                        role.setText("admin");
+                        break;
+                }
+                alertDialog1.dismiss();
+            }
+        });
+        alertDialog1 = builder.create();
+        alertDialog1.show();
+    }
+
+    private void CreateAlertDialogWithRadioButtonGroup1() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SigninActivity.this);
+
+        builder.setTitle("Select Your Gender");
+
+        builder.setSingleChoiceItems(AlertDialogItems, -1, new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int item) {
+
+                switch(item)
+                {
+                    case 0:
+                        gender.setText("male");
+                        break;
+                    case 1:
+                        gender.setText("female");
+                        break;
+                }
+                alertDialog1.dismiss();
+            }
+        });
+        alertDialog1 = builder.create();
+        alertDialog1.show();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -211,10 +291,11 @@ public class SigninActivity extends AppCompatActivity {
             }
         }
     }
-    private void addValue(String uid, String addresstext, String createdtext, String emailtext, String gendertext, String nametext, String phoneNumber, String photoUrl, String role) {
+    private void addValue(String uid, String addresstext, String createdtext,String deviceidtext, String emailtext, String gendertext, String nametext, String phoneNumber, String photoUrl, String role) {
         String id = databaseUsers.push().getKey();
 
-        users user = new users(addresstext,createdtext,emailtext,gendertext,nametext,phoneNumber,photoUrl,role,uid);
+        users user = new users(addresstext,createdtext,deviceidtext
+                ,emailtext,gendertext,nametext,phoneNumber,photoUrl,role,uid);
         databaseUsers.child(uid).setValue(user);
         name.setText("");
         email.setText("");
