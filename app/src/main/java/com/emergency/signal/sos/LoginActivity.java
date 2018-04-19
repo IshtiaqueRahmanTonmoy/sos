@@ -1,10 +1,12 @@
 package com.emergency.signal.sos;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,8 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private TextView signupText;
     DatabaseReference databaseUsers;
-
-
+    TelephonyManager telephonyManager;
+    private String deviceidtext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         databaseUsers = FirebaseDatabase.getInstance().getReference("users");
         setContentView(R.layout.activity_login);
 
+        telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
         /*
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, SendMessage1.class));
@@ -66,7 +69,9 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
                 public void onClick(View view) {
-                    if (email.getText().length()<0) {
+
+                deviceidtext = telephonyManager.getDeviceId();
+                if (email.getText().length()<0) {
                         Utils.showToast(LoginActivity.this, "Please input your email");
                     } else if (password.getText().length()<0) {
                         Utils.showToast(LoginActivity.this, "Please input your password");
@@ -90,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                                             //Toast.makeText(LoginActivity.this, "" + currentFirebaseUser.getUid(), Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(LoginActivity.this, SendMessage1.class);
                                             progressDialog.dismiss();
+                                            intent.putExtra("deviceid",deviceidtext);
                                             intent.putExtra("email",emailtext);
                                             startActivity(intent);
                                             finish();

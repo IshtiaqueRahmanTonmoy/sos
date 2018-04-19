@@ -51,6 +51,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 
+import com.bumptech.glide.Glide;
+import com.emergency.signal.entity.users;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.skyfishjy.library.RippleBackground;
 
 import java.io.File;
@@ -88,7 +95,7 @@ public class SendMessage1 extends AppCompatActivity
     TextView timer;
     String finalAddress = null;
     double latitude,longitude;
-    String emailval;
+    String emailval,deviceidval;
     //boolean notified;
     GestureDetectorCompat mDetector;
     private static final String DEBUG_TAG = "Gestures";
@@ -101,6 +108,7 @@ public class SendMessage1 extends AppCompatActivity
 //            Log.d("hehe","onCreate is called");
 
         emailval = getIntent().getStringExtra("email");
+        deviceidval = getIntent().getStringExtra("deviceid");
         timer=(TextView) findViewById(R.id.timer);
         button1 = (ImageView) findViewById(R.id.sos_button);
         button_stop = (ImageButton) findViewById(R.id.audio_stop_button);
@@ -110,15 +118,63 @@ public class SendMessage1 extends AppCompatActivity
         //ImageView imageView=(ImageView)findViewById(R.id.sos_button);
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                try {
-                    sendMessage(view);
-                    rippleBackground.startRippleAnimation();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            public void onClick(final View view) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("users");
+                myRef.orderByChild("email").equalTo(emailval).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+
+                            String deviceid = childDataSnapshot.child("deviceid").getValue().toString();
+                            if(deviceid.equals(deviceidval)){
+                                try {
+                                    sendMessage(view);
+                                    rippleBackground.startRippleAnimation();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                            else{
+                                AlertDialog.Builder builder = new AlertDialog.Builder(SendMessage1.this);
+
+                                //builder.setTitle("Device id not match");
+                                builder.setMessage("Device id not match");
+
+                                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Do nothing but close the dialog
+
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        // Do nothing
+                                        dialog.dismiss();
+                                    }
+                                });
+
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            }
+                            //Log.d("key", "PARENT: "+ childDataSnapshot.getKey());
+                            //Log.d("value",""+ childDataSnapshot.child("name").getValue());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
 
             }
         });
